@@ -259,9 +259,9 @@ appliquées par rapport au paquet :
 - libellés français corrigés dans `lang/vendor/livewire-tables/fr/core.php`
   (« Affichage de 1 à 15 sur 54 résultat(s) »).
 
-Pourquoi publier les vues plutôt que de configurer le paquet ? Le build Vite du
-déploiement (`xsel-deploy-mutualise`) s'exécute **sans** `composer install` :
-Tailwind ne peut donc pas lire les vues du dossier `vendor/`. Les classes
+Pourquoi publier les vues plutôt que de configurer le paquet ? Le build Vite
+peut s'exécuter **sans** `composer install` (build des assets à part) :
+Tailwind ne peut donc pas compter sur les vues du dossier `vendor/`. Les classes
 utilisées doivent se trouver dans `resources/views/` pour être compilées.
 
 **Modifier l'apparence** : éditer le fichier concerné dans

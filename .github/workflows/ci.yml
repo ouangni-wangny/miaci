@@ -1,17 +1,16 @@
 name: CI
 
-# Tests + qualité + build des assets. Voir docs/CI-CD.md et ADR-0005 de
-# xsel-deploy-mutualise (CI et CD séparés).
+# Tests + qualité + build des assets.
 #
+# - push sur main : chaque intégration est vérifiée.
 # - pull_request : chaque PR est testée avant fusion.
-# - workflow_call : deploy.yml l'appelle sur chaque push vers main ; le
-#   déploiement ne part que si ce job est vert (`needs: ci`). C'est pour ça
-#   qu'il n'y a pas de déclencheur `push` ici : il doublerait la CI sur main.
 # - workflow_dispatch : lancement manuel depuis l'onglet Actions.
+# Le déploiement se fait à la main (README, section « Déploiement »).
 
 on:
+  push:
+    branches: [main]
   pull_request:
-  workflow_call:
   workflow_dispatch:
 
 permissions:
@@ -52,7 +51,7 @@ jobs:
       # Non bloquant pour l'instant : le code existant n'est pas encore
       # formaté selon Pint (~26 fichiers, style uniquement). Une fois
       # `vendor/bin/pint` exécuté et commité, retirer `continue-on-error`
-      # pour rendre ce contrôle bloquant (voir docs/CI-CD.md).
+      # pour rendre ce contrôle bloquant.
       - name: Pint (style)
         continue-on-error: true
         run: ./vendor/bin/pint --test

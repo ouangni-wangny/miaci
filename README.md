@@ -228,13 +228,9 @@ justificatives, exports et journal d'audit.
 
 ## Déploiement
 
-Le déploiement est automatisé par GitHub Actions (CI sur chaque PR, puis
-déploiement SSH vers le cPanel à chaque push sur `main`) : voir
-[docs/CI-CD.md](docs/CI-CD.md) pour la mise en route, le `.env` de
-production, le retour arrière et le dépannage.
-
-Procédure manuelle équivalente, sur un hébergement mutualisé classique
-(PHP + MySQL) :
+GitHub Actions vérifie chaque push sur `main` et chaque pull request (tests,
+style, build des assets : `.github/workflows/ci.yml`). Le déploiement se fait
+à la main, sur un hébergement mutualisé classique (PHP + MySQL) :
 
 1. Déployer le code (le dossier `public/` doit être la racine web, ou
    configurer un alias/`.htaccess` selon l'hébergeur).
