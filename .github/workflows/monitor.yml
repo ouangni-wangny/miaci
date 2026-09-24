@@ -6,8 +6,11 @@ name: Monitor
 # Voir docs/CI-CD.md
 
 on:
-  schedule:
-    - cron: '*/15 * * * *'
+  # Cron suspendu : MIACI n'est pas encore en ligne (miaci.ci ne résout pas,
+  # deploy.yml a encore CPANEL_USER) → une alerte toutes les 15 min pour rien.
+  # À réactiver à la mise en ligne.
+  # schedule:
+  #   - cron: '*/15 * * * *'
   workflow_dispatch:
 
 permissions:
