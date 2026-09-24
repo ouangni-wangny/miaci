@@ -79,8 +79,10 @@ class AdherentsTableTest extends TestCase
 
     public function test_search_matches_matricule_telephone_and_ville(): void
     {
-        Adherent::factory()->create(['nom' => 'Traore', 'matricule' => '2020-MIACI-0001A', 'telephone' => '0102030405', 'ville' => 'Bouaké']);
-        Adherent::factory()->create(['nom' => 'Diomande', 'matricule' => '2021-MIACI-0002A', 'telephone' => '0708091011', 'ville' => 'Abidjan']);
+        // Établissements fixés : la recherche porte aussi sur l'établissement, et la
+        // factory peut tirer « EPP Bouaké … » pour Diomande (test instable).
+        Adherent::factory()->create(['nom' => 'Traore', 'matricule' => '2020-MIACI-0001A', 'telephone' => '0102030405', 'ville' => 'Bouaké', 'etablissement' => 'EPP Bouaké Air France 1']);
+        Adherent::factory()->create(['nom' => 'Diomande', 'matricule' => '2021-MIACI-0002A', 'telephone' => '0708091011', 'ville' => 'Abidjan', 'etablissement' => 'EPP Cocody Danga']);
 
         $table = Livewire::actingAs($this->utilisateur(Role::Gestionnaire))->test(AdherentsTable::class);
 
