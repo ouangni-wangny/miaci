@@ -56,18 +56,19 @@ jobs:
         continue-on-error: true
         run: ./vendor/bin/pint --test
 
-      - name: Tests
-        run: php artisan test
-
+      # Les vues de test chargent @vite : le manifeste (public/build) doit exister
+      # avant les tests, sinon « Vite manifest not found ».
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
 
-      # Vérifie que les assets Vite compilent. Le déploiement refait son
-      # propre build ; ce build-ci détecte le problème avant la fusion.
+      # Vérifie aussi que les assets Vite compilent avant la fusion.
       - name: Build des assets (Vite)
         run: |
           npm ci
           npm run build
+
+      - name: Tests
+        run: php artisan test
