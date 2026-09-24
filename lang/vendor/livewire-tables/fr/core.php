@@ -1,0 +1,45 @@
+<?php
+
+// Surcharge de la traduction française de rappasoft/laravel-livewire-tables :
+// « Résultats 1 à 15 sur 42 résultats » devient « Affichage de 1 à 15 sur 42
+// résultats ». Le reste est celui du paquet.
+
+return [
+    'All' => 'Tous',
+    'All Columns' => 'Toutes les colonnes',
+    'Applied Filters' => 'Filtres appliqués',
+    'Applied Sorting' => 'Tris appliqués',
+    'Bulk Actions' => 'Actions sur la sélection',
+    'Bulk Actions Confirm' => 'Êtes-vous sûr ?',
+    'cancel' => 'Annuler',
+    'Clear' => 'Effacer',
+    'Columns' => 'Colonnes affichées',
+    'Debugging Values' => 'Valeurs de débogage',
+    'Deselect All' => 'Tout désélectionner ',
+    'Done Reordering' => 'Réordonnancement terminé',
+    'Filters' => 'Filtres',
+    'loading' => 'Chargement',
+    'max' => 'Max',
+    'min' => 'Min',
+    'not_applicable' => 'N/A',
+    'No' => 'Non',
+    'No items found, try to broaden your search' => "Aucun élément trouvé. Essayez d'élargir votre recherche.",
+    'of' => 'sur',
+    'Remove filter option' => "Supprimer l'option de filtrage",
+    'Remove sort option' => "Supprimer l'option de tri",
+    'Reorder' => 'Réordonner',
+    'results' => 'résultat(s)',
+    'row' => 'ligne',
+    'rows' => 'lignes',
+    'rows, do you want to select all' => 'lignes, voulez-vous tout sélectionner ?',
+    'save' => 'Enregistrer',
+    'Search' => 'Rechercher',
+    'Select All' => 'Tout sélectionner',
+    'Select All On Page' => 'Sélectionner toute la page',
+    'Showing' => 'Affichage de',
+    'to' => 'à',
+    'Yes' => 'Oui',
+    'You are currently selecting all' => 'Vous êtes en train de sélectionner ',
+    'You are not connected to the internet' => "Vous n'êtes pas connecté à l'Internet",
+    'You have selected' => 'Vous avez sélectionné',
+];

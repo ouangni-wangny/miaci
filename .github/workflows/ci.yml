@@ -1,0 +1,74 @@
+name: CI
+
+# Tests + qualité + build des assets. Voir docs/CI-CD.md et ADR-0005 de
+# xsel-deploy-mutualise (CI et CD séparés).
+#
+# - pull_request : chaque PR est testée avant fusion.
+# - workflow_call : deploy.yml l'appelle sur chaque push vers main ; le
+#   déploiement ne part que si ce job est vert (`needs: ci`). C'est pour ça
+#   qu'il n'y a pas de déclencheur `push` ici : il doublerait la CI sur main.
+# - workflow_dispatch : lancement manuel depuis l'onglet Actions.
+
+on:
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Tests, style, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          # gd/zip : maatwebsite/excel + dompdf ; pdo_sqlite : base des tests
+          # (phpunit.xml -> sqlite :memory:, aucune base MySQL requise en CI).
+          extensions: mbstring, dom, fileinfo, gd, zip, intl, bcmath, pdo_sqlite, sqlite3
+          coverage: none
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Créer le .env de test
+        run: |
+          cp .env.example .env
+          php artisan key:generate --ansi
+
+      # Non bloquant pour l'instant : le code existant n'est pas encore
+      # formaté selon Pint (~26 fichiers, style uniquement). Une fois
+      # `vendor/bin/pint` exécuté et commité, retirer `continue-on-error`
+      # pour rendre ce contrôle bloquant (voir docs/CI-CD.md).
+      - name: Pint (style)
+        continue-on-error: true
+        run: ./vendor/bin/pint --test
+
+      - name: Tests
+        run: php artisan test
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # Vérifie que les assets Vite compilent. Le déploiement refait son
+      # propre build ; ce build-ci détecte le problème avant la fusion.
+      - name: Build des assets (Vite)
+        run: |
+          npm ci
+          npm run build

@@ -1,0 +1,23 @@
+name: Monitor
+
+# Healthcheck périodique, indépendant des déploiements : détecte une panne
+# serveur, un certificat expiré ou une modification cassée côté cPanel.
+# GitHub envoie un email au propriétaire du repo si ce workflow échoue.
+# Voir docs/CI-CD.md
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    uses: ouangni-wangny/xsel-deploy-mutualise/.github/workflows/monitor.yml@v1.0.1
+    with:
+      # TODO: mêmes URLs que health_check_url dans deploy.yml.
+      urls: |
+        https://miaci.ci/up
+        https://miaci.ci
